@@ -1,15 +1,16 @@
-// const Manager = require("./lib/Manager");
-// const Engineer = require("./lib/Engineer");
-// const Intern = require("./lib/Intern");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
-// const path = require("path");
-// const fs = require("fs");
-// const OUTPUT_DIR = path.resolve(__dirname, "output")
-// const outputPath = path.join(OUTPUT_DIR, "team.html");
-// const render = require("./lib/htmlRenderer");
+const path = require("path");
+const fs = require("fs");
+const OUTPUT_DIR = path.resolve(__dirname, "output")
+const outputPath = path.join(OUTPUT_DIR, "team.html");
+const render = require("./lib/htmlRenderer");
 //  ​
 var empList = []
 init()
+
 function init(){
     addEmpl()
 }
@@ -36,13 +37,26 @@ function addEmpl(){
             type: "list",
             name: "empRole",
             message: "Please enter the name of the employee you would like to add",
-            choices: ["Manager", "Engineer", "Intern"]
+            choices: ["Manager", "Engineer", "Intern"],
+            filter: async function(answer){
+                switch(answer){
+                    case "Manager":
+                        
+                        let office = await inquirer.prompt({
+                            type: "input",
+                            name: "number",
+                            message: "Please enter the Managers offce number"
+                        })
+                        answer.officeNum = office.num
+                }
+                return answer
+            }
         },
         {
             type: "list",
             name: "addEmp",
             message: "Would you like to add another Employee?",
-            choices: ["Yes", "No"]
+            choices: ["Yes", "No"]//add this to the .then function, create another inquirer.prompt
         }
     ]).then(function(answers){
         empList.push(answers)
@@ -50,10 +64,22 @@ function addEmpl(){
         if(answers.addEmp === "Yes"){
             addEmpl()
         }else{
-            console.log("complete")
-            
+            generateEmp(empList)
         }
     })
+}
+
+function generateEmp(empList){
+    let Employees = []
+    for(let i = 0; i < empList.length; i++){
+        switch(empList[i].empRole){
+            case "Manager":
+                break
+            case "Engineer":
+                console.log("Plus 1 Engineer")
+                break
+        }
+    }
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
