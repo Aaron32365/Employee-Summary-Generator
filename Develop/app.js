@@ -38,30 +38,48 @@ function addEmpl(){
             name: "empRole",
             message: "Please enter the name of the employee you would like to add",
             choices: ["Manager", "Engineer", "Intern"],
-            filter: async function(answer){
-                switch(answer){
-                    case "Manager":
-                        
-                        let office = await inquirer.prompt({
-                            type: "input",
-                            name: "number",
-                            message: "Please enter the Managers offce number"
-                        })
-                        answer.officeNum = office.num
-                }
-                return answer
-            }
-        },
-        {
-            type: "list",
-            name: "addEmp",
-            message: "Would you like to add another Employee?",
-            choices: ["Yes", "No"]//add this to the .then function, create another inquirer.prompt
         }
-    ]).then(function(answers){
+    ]).then(async function(answers){
+        switch(answers.empRole){
+            case "Manager":
+                await inquirer.prompt({
+                    type: "input",
+                    name: "officeNum",
+                    message: "Please input your Managers office number"
+                }).then(function(response){
+                    return answers.officeNum = response.officeNum
+                })
+                break
+            case "Engineer":
+                await inquirer.prompt({
+                    type: "input",
+                    name: "github",
+                    message: "Please input your Engineers github username"
+                }).then(function(response){
+                    return answers.github = response.github
+                })
+                break
+            case "Intern":
+                await inquirer.prompt({
+                    type: "input",
+                    name: "school",
+                    message: "Please input your Interns school"
+                }).then(function(response){
+                    return answers.school = response.school
+                })
+                break
+        }
+        let addEmployee = await inquirer.prompt(
+            {
+                type: "list",
+                name: "addEmp",
+                message: "Would you like to add another Employee?",
+                choices: ["Yes", "No"]
+            }
+        )
         empList.push(answers)
         console.log(empList)
-        if(answers.addEmp === "Yes"){
+        if(addEmployee.addEmp === "Yes"){
             addEmpl()
         }else{
             generateEmp(empList)
@@ -74,7 +92,8 @@ function generateEmp(empList){
     for(let i = 0; i < empList.length; i++){
         switch(empList[i].empRole){
             case "Manager":
-                break
+                console.log("Plus 1 Manager")
+                break  
             case "Engineer":
                 console.log("Plus 1 Engineer")
                 break
