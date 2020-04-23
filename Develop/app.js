@@ -20,27 +20,27 @@ function addEmpl(){
     inquirer.prompt([
         {
             type: "input",
-            name: "empName",
+            name: "Name",
             message: "Please enter the name of the Employee you would like to add"
         },
         {
             type: "input",
-            name: "empId",
+            name: "Id",
             message: "Please enter the Employees ID"
         },
         {
             type: "input",
-            name: "empEmail",
+            name: "Email",
             message: "Please enter the Employees email"
         },
         {
             type: "list",
-            name: "empRole",
-            message: "Please enter the name of the employee you would like to add",
+            name: "Role",
+            message: "Please enter the role of the employee you would like to add",
             choices: ["Manager", "Engineer", "Intern"],
         }
     ]).then(async function(answers){
-        switch(answers.empRole){
+        switch(answers.Role){
             case "Manager":
                 await inquirer.prompt({
                     type: "input",
@@ -78,7 +78,6 @@ function addEmpl(){
             }
         )
         empList.push(answers)
-        console.log(empList)
         if(addEmployee.addEmp === "Yes"){
             addEmpl()
         }else{
@@ -90,15 +89,32 @@ function addEmpl(){
 function generateEmp(empList){
     let Employees = []
     for(let i = 0; i < empList.length; i++){
-        switch(empList[i].empRole){
+        switch(empList[i].Role){
             case "Manager":
-                console.log("Plus 1 Manager")
-                break  
+                let manager = new Manager(empList[i].Name, empList[i].Id, empList[i].Email, empList[i].officeNum)
+                Employees.push(manager)
+                break
             case "Engineer":
-                console.log("Plus 1 Engineer")
+                let engineer = new Engineer(empList[i].Name, empList[i].Id, empList[i].Email, empList[i].github)
+                Employees.push(engineer)
+                break
+            case "Intern":
+                let intern = new Engineer(empList[i].Name, empList[i].Id, empList[i].Email, empList[i].school)
+                Employees.push(intern)
                 break
         }
     }
+    console.log(Employees)
+    renderTeam(Employees)
+}
+
+async function renderTeam(Employees){
+    console.log(Employees)
+    var html = await render(Employees)
+    fs.writeFile(outputPath, html, (err) =>{
+        if(err) throw (err)
+        console.log("Team html fire generated, please check the 'output' folder")
+    })
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
