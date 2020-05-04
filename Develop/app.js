@@ -1,3 +1,4 @@
+//requiring necessary modules
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -7,17 +8,19 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output")
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
-//  ​
+//////////////////////////////////////////////////////////////////////
 var empList = []
+//initialization
 init()
 
 function init(){
     addEmpl()
 }
+/////////////////////////////////////////////////////////////////////
 
-
-function addEmpl(){//initialization
-    inquirer.prompt([//prompts user for basic information and stores returned input into answers var
+function addEmpl(){
+//prompts user for basic information and stores returned input into answers var
+    inquirer.prompt([
         {
             type: "input",
             name: "Name",
@@ -39,8 +42,11 @@ function addEmpl(){//initialization
             message: "Please enter the role of the employee you would like to add",
             choices: ["Manager", "Engineer", "Intern"],
         }
+//////////////////////////////////////////////////////////////////////////////////////
+
+//checks for the new employees role, additional prompts based off of input
     ]).then(async function(answers){
-        switch(answers.Role){//checks for the new employees role, additional prompts based off of input
+        switch(answers.Role){
             case "Manager":
                 await inquirer.prompt({
                     type: "input",
@@ -77,18 +83,23 @@ function addEmpl(){//initialization
                 choices: ["Yes", "No"]
             }
         )
+/////////////////////////////////////////////////////////////////////////////////////
+
         empList.push(answers)
-        if(addEmployee.addEmp === "Yes"){//checking if user wants to add more employees
+        //checking if user wants to add more employees
+        if(addEmployee.addEmp === "Yes"){
             addEmpl()
+/////////////////////////////////////////////////////////////////////////////////////
         }else{
             generateEmp(empList)
         }
     })
 }
 
+//function that loops through employees, creates new class object for each
 function generateEmp(empList){
     let Employees = []
-    for(let i = 0; i < empList.length; i++){//loops through employees, creates new class object for each 
+    for(let i = 0; i < empList.length; i++){ 
         switch(empList[i].Role){
             case "Manager":
                 let manager = new Manager(empList[i].Name, empList[i].Id, empList[i].Email, empList[i].officeNum)
@@ -108,7 +119,10 @@ function generateEmp(empList){
     renderTeam(Employees)
 }
 
-async function renderTeam(Employees){//function for generating html file for team summary 
+///////////////////////////////////////////////////////////////////////////////////////
+
+//function for generating html file for team summary 
+async function renderTeam(Employees){
     console.log(Employees)
     var html = await render(Employees)
     fs.writeFile(outputPath, html, (err) =>{
@@ -116,3 +130,4 @@ async function renderTeam(Employees){//function for generating html file for tea
         console.log("Team html file generated, please check the 'output' folder")
     })
 }
+//////////////////////////////////////////////////////////////////////////////////////
