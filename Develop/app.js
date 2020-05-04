@@ -99,7 +99,7 @@ function generateEmp(empList){
                 Employees.push(engineer)
                 break
             case "Intern":
-                let intern = new Engineer(empList[i].Name, empList[i].Id, empList[i].Email, empList[i].school)
+                let intern = new Intern(empList[i].Name, empList[i].Id, empList[i].Email, empList[i].school)
                 Employees.push(intern)
                 break
         }

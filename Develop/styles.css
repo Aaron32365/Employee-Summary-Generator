@@ -1,0 +1,31 @@
+
+#jumbo{
+    background-color: #1B3B6F;
+    font-family: 'Comfortaa', cursive;
+    color: white;
+}
+body{
+    background-color: #FCFCFC;
+}
+
+.card-body{
+    background-color: #55646F;
+}
+
+.card-header{
+    background-color: #5399CC;
+    color: white;
+    border-bottom-width: 2px;
+    border-bottom-color: black;
+}
+
+.card{
+    border-style: solid;
+    border-color: black;
+    border-width: 4px;
+    border-radius: 6px;
+}
+
+.list-group-item{
+    font-size: 1.3em;
+}
