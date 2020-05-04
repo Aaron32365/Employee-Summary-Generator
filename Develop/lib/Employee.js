@@ -1,4 +1,4 @@
-class Employee {
+class Employee {//class base for new employees
     constructor(name, id, email){
         this.name = name
         this.id = id
