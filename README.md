@@ -1,7 +1,7 @@
 
 # Employee Summary Generator
 
-<h1>An application for generating team summaries</h1>
+<h3>An application for generating team summaries</h3>
 
 >  ## **Table of Contents** :notebook:
 
