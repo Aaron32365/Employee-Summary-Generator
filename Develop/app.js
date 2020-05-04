@@ -113,7 +113,7 @@ async function renderTeam(Employees){
     var html = await render(Employees)
     fs.writeFile(outputPath, html, (err) =>{
         if(err) throw (err)
-        console.log("Team html fire generated, please check the 'output' folder")
+        console.log("Team html file generated, please check the 'output' folder")
     })
 }
 // Write code to use inquirer to gather information about the development team members,
